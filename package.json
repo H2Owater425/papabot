@@ -1,0 +1,29 @@
+{
+  "name": "papabot",
+  "version": "1.0.0",
+  "description": "A Discord bot that makes translating conveniently",
+  "main": "distributable/app.js",
+  "repository": "https://github.com/H2Owater425/papabot.git",
+  "author": "h2owater425 <h2o@h2owr.xyz>",
+  "license": "MIT",
+  "dependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/node-fetch": "^2.5.11",
+    "discord-akairo": "^8.1.0",
+    "discord-reply": "^0.1.2",
+    "discord.js": "^12.5.3",
+    "dotenv": "^10.0.0",
+    "node-fetch": "^2.6.1",
+    "tsconfig-paths": "^3.9.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.9",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.5"
+  },
+  "scripts": {
+    "prestart": "tsc",
+    "start": "node -r tsconfig-paths/register distributable/app.js",
+    "dev": "nodemon --exec ts-node -r tsconfig-paths/register source/app.ts"
+  }
+}

@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+		"target": "ES2015",
+		"module": "CommonJS",
+		"sourceMap": true,
+		"outDir": "distributable",
+		"strict": true,
+		"moduleResolution": "node",
+		"baseUrl": ".",
+		"paths": {
+			"@library/*": ["source/library/*", "distributable/library/*"]
+		},
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true
+	},
+	"exclude": ["node_modules"],
+	"include": ["source/**/*", "distributable/**/*"]
+}
