@@ -43,7 +43,7 @@ class default_1 extends discord_akairo_1.Command {
                 pageList.push(new discord_js_1.MessageEmbed({
                     color: process.env.COLOR,
                     thumbnail: {
-                        url: 'https://cdn.h2owr.xyz/images/translate-bot/logo.png'
+                        url: 'https://cdn.h2owr.xyz/images/papabot/logo.png'
                     },
                     title: `Papabot | Language information(${languageInformation['fullName']})`,
                     fields: [
@@ -76,7 +76,7 @@ class default_1 extends discord_akairo_1.Command {
                 pageList.push(new discord_js_1.MessageEmbed({
                     color: process.env.COLOR,
                     thumbnail: {
-                        url: 'https://cdn.h2owr.xyz/images/translate-bot/logo.png'
+                        url: 'https://cdn.h2owr.xyz/images/papabot/logo.png'
                     },
                     title: 'Papabot | Language list',
                     description: languageInformationList.slice(i * elementNumber, i * elementNumber + elementNumber)

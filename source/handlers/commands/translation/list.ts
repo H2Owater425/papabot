@@ -47,7 +47,7 @@ export default class extends Command {
 				pageList.push(new MessageEmbed({
 					color: process.env.COLOR,
 					thumbnail: {
-						url: 'https://cdn.h2owr.xyz/images/translate-bot/logo.png'
+						url: 'https://cdn.h2owr.xyz/images/papabot/logo.png'
 					},
 					title: `Papabot | Language information(${languageInformation['fullName']})`,
 					fields: [
@@ -81,7 +81,7 @@ export default class extends Command {
 				pageList.push(new MessageEmbed({
 					color: process.env.COLOR,
 					thumbnail: {
-						url: 'https://cdn.h2owr.xyz/images/translate-bot/logo.png'
+						url: 'https://cdn.h2owr.xyz/images/papabot/logo.png'
 					},
 					title: 'Papabot | Language list',
 					description: languageInformationList.slice(i * elementNumber, i * elementNumber + elementNumber)

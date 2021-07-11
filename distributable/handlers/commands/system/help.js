@@ -35,7 +35,7 @@ class default_1 extends discord_akairo_1.Command {
             message.channel.send(new discord_js_1.MessageEmbed({
                 color: process.env.COLOR,
                 thumbnail: {
-                    url: 'https://cdn.h2owr.xyz/images/translate-bot/logo.png'
+                    url: 'https://cdn.h2owr.xyz/images/papabot/logo.png'
                 },
                 title: `Papabot | Command(${command})`,
                 fields: [
@@ -64,7 +64,7 @@ class default_1 extends discord_akairo_1.Command {
             message.channel.send(new discord_js_1.MessageEmbed({
                 color: process.env.COLOR,
                 thumbnail: {
-                    url: 'https://cdn.h2owr.xyz/images/translate-bot/logo.png'
+                    url: 'https://cdn.h2owr.xyz/images/papabot/logo.png'
                 },
                 title: `Papabot | Category(${category})`,
                 description: category.filter((value, key, Collection) => value['aliases'].length > 0)
@@ -79,7 +79,7 @@ class default_1 extends discord_akairo_1.Command {
                 return new discord_js_1.MessageEmbed({
                     color: process.env.COLOR,
                     thumbnail: {
-                        url: 'https://cdn.h2owr.xyz/images/translate-bot/logo.png'
+                        url: 'https://cdn.h2owr.xyz/images/papabot/logo.png'
                     },
                     title: `Papabot | Help`,
                     fields: [

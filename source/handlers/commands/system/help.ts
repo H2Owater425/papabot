@@ -37,7 +37,7 @@ export default class extends Command {
 			message.channel.send(new MessageEmbed({
 				color: process.env.COLOR,
 				thumbnail: {
-					url: 'https://cdn.h2owr.xyz/images/translate-bot/logo.png'
+					url: 'https://cdn.h2owr.xyz/images/papabot/logo.png'
 				},
 				title: `Papabot | Command(${command})`,
 				fields: [
@@ -67,7 +67,7 @@ export default class extends Command {
 			message.channel.send(new MessageEmbed({
 				color: process.env.COLOR,
 				thumbnail: {
-					url: 'https://cdn.h2owr.xyz/images/translate-bot/logo.png'
+					url: 'https://cdn.h2owr.xyz/images/papabot/logo.png'
 				},
 				title: `Papabot | Category(${category})`,
 				description: category.filter((value: Command, key: string, Collection: Category<string, Command>) => value['aliases'].length > 0)
@@ -83,7 +83,7 @@ export default class extends Command {
 				return new MessageEmbed({
 					color: process.env.COLOR,
 					thumbnail: {
-						url: 'https://cdn.h2owr.xyz/images/translate-bot/logo.png'
+						url: 'https://cdn.h2owr.xyz/images/papabot/logo.png'
 					},
 					title: `Papabot | Help`,
 					fields: [

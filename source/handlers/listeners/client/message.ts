@@ -41,7 +41,7 @@ export default class extends Listener {
 							description: value['text'],
 							footer: {
 								text: `${value['sourceLanguage']['fullName']}(${value['sourceLanguage']['code']}) → ${value['targetLanguage']['fullName']}(${value['targetLanguage']['code']})`,
-								iconURL: 'https://cdn.h2owr.xyz/images/translate-bot/translate_image.png'
+								iconURL: 'https://cdn.h2owr.xyz/images/papabot/translate_icon.png'
 							}
 						}));
 						
@@ -82,7 +82,7 @@ export default class extends Listener {
 							color: 'ff0000',
 							author: {
 								name: errorInformation['name'],
-								iconURL: 'https://cdn.h2owr.xyz/images/translate-bot/error_icon.png'
+								iconURL: 'https://cdn.h2owr.xyz/images/papabot/error_icon.png'
 							},
 							description: errorInformation['description'],
 							footer: {
