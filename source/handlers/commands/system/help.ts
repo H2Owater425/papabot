@@ -15,12 +15,7 @@ export default class extends Command {
 			args: [
 				{
 					id: 'commandOrCategory',
-					type: Argument.union('commandAlias', (message: Message, string: string) => this.handler.categories.get(string) || null),
-					prompt: {
-						optional: true,
-						timeout: 10000,
-						retry: 'Please enter command or category'
-					}
+					type: Argument.union('commandAlias', (message: Message, string: string) => this.handler.categories.get(string) || null)
 				}
 			],
 			description: {

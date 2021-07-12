@@ -16,12 +16,7 @@ export default class extends Command {
 				{
 					id: 'languageCodeOrFullName',
 					// @ts-expect-error :: Already removed undefined value from array
-					type: [...languageCode.filter((value: typeof languageCode[number], index: number, array: readonly (typeof languageCode[number])[]) => typeof(value) !== 'undefined'), ...languageFullName.filter((value: typeof languageFullName[number], index: number, array: readonly (typeof languageFullName[number])[]) => typeof(value) !== 'undefined')],
-					prompt: {
-						optional: true,
-						timeout: 30000,
-						retry: 'Please enter language code or language full name'
-					}
+					type: [...languageCode.filter((value: typeof languageCode[number], index: number, array: readonly (typeof languageCode[number])[]) => typeof(value) !== 'undefined'), ...languageFullName.filter((value: typeof languageFullName[number], index: number, array: readonly (typeof languageFullName[number])[]) => typeof(value) !== 'undefined')]
 				}
 			],
 			description: {
