@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const logger_1 = require("@library/logger");
 const translator_1 = require("@library/translator");
+const utility_1 = require("@library/utility");
 const discord_akairo_1 = require("discord-akairo");
 const discord_js_1 = require("discord.js");
 if ([process.env.COLOR].includes(undefined)) {
@@ -19,7 +20,7 @@ class default_1 extends discord_akairo_1.Listener {
         const botId = ((_a = this['client']['user']) === null || _a === void 0 ? void 0 : _a['id']) || '';
         message.awaitReactions(function (reaction, user) {
             const targetLanguage = translator_1.getLanguageInformation(reaction['emoji']['name']);
-            if (!user['bot'] && !Object.values(targetLanguage).includes(undefined)) {
+            if (!user['bot'] && !utility_1.getObjectValueList(targetLanguage).includes(undefined)) {
                 if (!reaction['users']['cache'].map((value, key, collection) => key).includes(botId)) {
                     translator_1.getTranslatedResult(message['content'], targetLanguage['code'])
                         .then(function (value) {

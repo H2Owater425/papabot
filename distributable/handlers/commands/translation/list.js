@@ -15,12 +15,7 @@ class default_1 extends discord_akairo_1.Command {
                 {
                     id: 'languageCodeOrFullName',
                     // @ts-expect-error :: Already removed undefined value from array
-                    type: [...translator_1.languageCode.filter((value, index, array) => typeof (value) !== 'undefined'), ...translator_1.languageFullName.filter((value, index, array) => typeof (value) !== 'undefined')],
-                    prompt: {
-                        optional: true,
-                        timeout: 30000,
-                        retry: 'Please enter language code or language full name'
-                    }
+                    type: [...translator_1.languageCode.filter((value, index, array) => typeof (value) !== 'undefined'), ...translator_1.languageFullName.filter((value, index, array) => typeof (value) !== 'undefined')]
                 }
             ],
             description: {

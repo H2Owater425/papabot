@@ -15,12 +15,7 @@ class default_1 extends discord_akairo_1.Command {
             args: [
                 {
                     id: 'commandOrCategory',
-                    type: discord_akairo_1.Argument.union('commandAlias', (message, string) => this.handler.categories.get(string) || null),
-                    prompt: {
-                        optional: true,
-                        timeout: 10000,
-                        retry: 'Please enter command or category'
-                    }
+                    type: discord_akairo_1.Argument.union('commandAlias', (message, string) => this.handler.categories.get(string) || null)
                 }
             ],
             description: {

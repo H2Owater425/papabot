@@ -1,6 +1,7 @@
 import { logger } from "@library/logger";
 import { getLanguageInformation, getTranslatedResult } from "@library/translator";
 import { LanguageInformation, LooseObject, TranslatedResult } from "@library/types";
+import { getObjectValueList } from "@library/utility";
 import { Listener } from "discord-akairo";
 import { Collection, Message, MessageEmbed, MessageReaction, User } from "discord.js";
 
@@ -27,7 +28,7 @@ export default class extends Listener {
 		message.awaitReactions(function (reaction: MessageReaction, user: User): any {
 			const targetLanguage: LanguageInformation = getLanguageInformation(reaction['emoji']['name']);
 
-			if(!user['bot'] && !Object.values(targetLanguage).includes(undefined)) {
+			if(!user['bot'] && !getObjectValueList(targetLanguage).includes(undefined)) {
 				
 				if(!reaction['users']['cache'].map((value: User, key: string, collection: Collection<string, User>) => key).includes(botId)) {
 					getTranslatedResult(message['content'], targetLanguage['code'])

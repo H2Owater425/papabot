@@ -130,3 +130,19 @@ export function sendEmbedList(message: Message, pageList: MessageEmbed[], option
 		throw Error('Lack of page');
 	}
 }
+
+export function getObjectValueList(object: Object, valueList?: any[]): any[] {
+	valueList = valueList || [];
+
+	const _valueList: any[] = Object.values(object);
+
+	for(let i: number = 0; i < _valueList.length; i++) {
+		if(typeof(_valueList[i]) === 'object') {
+			getObjectValueList(_valueList[i], valueList);
+		} else {
+			valueList.push(_valueList[i]);
+		}
+	}
+
+	return valueList;
+}

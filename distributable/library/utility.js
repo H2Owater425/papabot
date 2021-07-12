@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendEmbedList = exports.resolvePromiseByOrder = exports.getParsedJson = exports.getTime = void 0;
+exports.getObjectValueList = exports.sendEmbedList = exports.resolvePromiseByOrder = exports.getParsedJson = exports.getTime = void 0;
 function getTime(date = new Date()) {
     var _a;
     function getDoubleDigit(_number) {
@@ -115,4 +115,18 @@ function sendEmbedList(message, pageList, option) {
     }
 }
 exports.sendEmbedList = sendEmbedList;
+function getObjectValueList(object, valueList) {
+    valueList = valueList || [];
+    const _valueList = Object.values(object);
+    for (let i = 0; i < _valueList.length; i++) {
+        if (typeof (_valueList[i]) === 'object') {
+            getObjectValueList(_valueList[i], valueList);
+        }
+        else {
+            valueList.push(_valueList[i]);
+        }
+    }
+    return valueList;
+}
+exports.getObjectValueList = getObjectValueList;
 //# sourceMappingURL=utility.js.map
