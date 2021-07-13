@@ -30,7 +30,7 @@ function zip(sourcePath, outputPath) {
 function getApacheLogMessage(log) {
     return `[${log['time']['year']}-${log['time']['month']}-${log['time']['date']} ${log['time']['hour']}:${log['time']['minute']}:${log['time']['second']} ${log['time']['timeZone']}] [${log['level']}] "${log['message']}"`;
 }
-const levels = ['emerg', 'alert', 'crit', 'error', 'warn', 'notice', 'info', 'debug'];
+const levelList = ['emerg', 'alert', 'crit', 'error', 'warn', 'notice', 'info', 'debug'];
 class Logger {
     constructor(option) {
         this.option = option;
@@ -101,7 +101,7 @@ exports.Logger = Logger;
 exports.logger = new Logger({
     logHandlerList: [
         function (log) {
-            const logLevelNumber = levels.indexOf(log['level']);
+            const logLevelNumber = levelList.indexOf(log['level']);
             const apacheLogMessage = getApacheLogMessage(log);
             if (logLevelNumber >= 7) {
                 console.debug(apacheLogMessage);
@@ -142,7 +142,7 @@ exports.logger = new Logger({
                     }
                 })
                     .then(function (value) {
-                    const logLevelNumber = levels.indexOf(log['level']);
+                    const logLevelNumber = levelList.indexOf(log['level']);
                     const logPath = logLevelNumber > 3 ? `${process.env.LOG_DIRECTORY}/translate-bot.access.log` : `${process.env.LOG_DIRECTORY}/translate-bot.error.log`;
                     let isFirstLog = false;
                     new Promise(function (resolve, reject) {

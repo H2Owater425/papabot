@@ -15,7 +15,7 @@ class default_1 extends discord_akairo_1.Listener {
     exec(...argList) {
         var _a, _b, _c;
         logger_1.logger.info(`Logged into discord as ${(_a = this.client.user) === null || _a === void 0 ? void 0 : _a['username']}(${(_b = this.client.user) === null || _b === void 0 ? void 0 : _b['id']}) @ DISCORD`);
-        (_c = this.client.user) === null || _c === void 0 ? void 0 : _c.setActivity(`${process.env.PREFIX}help`);
+        (_c = this.client.user) === null || _c === void 0 ? void 0 : _c.setActivity(`for ${process.env.PREFIX}`, { type: 'WATCHING' });
         return;
     }
 }
