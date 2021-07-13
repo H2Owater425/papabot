@@ -17,7 +17,7 @@ export default class extends Listener {
 	public exec(...argList: any[]): any {
 		logger.info(`Logged into discord as ${this.client.user?.['username']}(${this.client.user?.['id']}) @ DISCORD`);
 
-		this.client.user?.setActivity(`${process.env.PREFIX}help`);
+		this.client.user?.setActivity(`for ${process.env.PREFIX}`, { type: 'WATCHING' });
 		
 		return;
 	}

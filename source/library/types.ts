@@ -40,7 +40,7 @@ export interface LanguageInformation {
 export interface TranslatedResult {
 	sourceLanguage: LanguageInformation;
 	targetLanguage: LanguageInformation;
-	text: string | undefined;
+	text: string;
 }
 
 export interface _RecationEmoji {

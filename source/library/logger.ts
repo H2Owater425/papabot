@@ -46,7 +46,7 @@ function getApacheLogMessage(log: Log): string {
 	return `[${log['time']['year']}-${log['time']['month']}-${log['time']['date']} ${log['time']['hour']}:${log['time']['minute']}:${log['time']['second']} ${log['time']['timeZone']}] [${log['level']}] "${log['message']}"`;
 }
 
-const levels: string[] = ['emerg', 'alert', 'crit', 'error', 'warn', 'notice', 'info', 'debug'];
+const levelList = ['emerg', 'alert', 'crit', 'error', 'warn', 'notice', 'info', 'debug'] as const;
 
 export class Logger {
 	option: LoggerOption;
@@ -128,7 +128,7 @@ export class Logger {
 export const logger: Logger = new Logger({
 	logHandlerList: [
 		function (log: Log): void {
-			const logLevelNumber: number = levels.indexOf(log['level']);
+			const logLevelNumber: number = levelList.indexOf(log['level']);
 			const apacheLogMessage: string = getApacheLogMessage(log);
 
 			if(logLevelNumber >= 7) {
@@ -169,7 +169,7 @@ export const logger: Logger = new Logger({
 					}
 				})
 				.then(function (value: void): void | PromiseLike<void> {
-					const logLevelNumber: number = levels.indexOf(log['level']);
+					const logLevelNumber: number = levelList.indexOf(log['level']);
 					const logPath: string = logLevelNumber > 3 ? `${process.env.LOG_DIRECTORY}/translate-bot.access.log` : `${process.env.LOG_DIRECTORY}/translate-bot.error.log`;
 					let isFirstLog: boolean = false;
 
