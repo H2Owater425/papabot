@@ -68,7 +68,7 @@ export default class extends Listener {
 							case 'UNKOWN_LANGUAGE':
 								errorInformation = {
 									name: 'Unknown language',
-									description: 'Detected unknwon language,\nplease use translator to supported language'
+									description: 'Unknwon language,\nplease use translator to supported language'
 								}
 							case 'INVALID_LANGUAGE':
 								errorInformation = {
@@ -92,9 +92,11 @@ export default class extends Listener {
 							// @ts-expect-error :: Will only get one that isn't list
 							setTimeout(() => value.delete(), 30000);
 						});
+
+						logger.warn(`${errorInformation['name']} @ DISCORD(${message['id']})`);
 					});
 				} else {
-					logger.notice(`Already translated message(${message['id']}) @ Discord(${message['channel']['id']})`);
+					logger.notice(`Already translated message @ Discord(${message['id']})`);
 				}
 			}
 		});
