@@ -16,7 +16,7 @@ function zip(sourcePath, outputPath) {
         try {
             stream_1.pipeline(fs_1.default.createReadStream(sourcePath), zlib_1.createGzip(), fs_1.default.createWriteStream(outputPath), function (error) {
                 if (error !== null && typeof (error) !== 'undefined') {
-                    throw error; /*Error('Error occurred while compressing file')*/
+                    throw Error('Error occurred while compressing file');
                 }
                 resolve();
             });
@@ -28,7 +28,7 @@ function zip(sourcePath, outputPath) {
     });
 }
 function getApacheLogMessage(log) {
-    return `[${log['time']['year']}-${log['time']['month']}-${log['time']['date']} ${log['time']['hour']}:${log['time']['minute']}:${log['time']['second']} ${log['time']['timeZone']}] [${log['level']}] "${log['message']}"`;
+    return `[${log['time']['year']}-${log['time']['month']}-${log['time']['date']} ${log['time']['hour']}:${log['time']['minute']}:${log['time']['second']} ${log['time']['timeZone']}] [${log['level']}] "${log['message'].replace(/\n/g, '; ')}"`;
 }
 const levelList = ['emerg', 'alert', 'crit', 'error', 'warn', 'notice', 'info', 'debug'];
 class Logger {

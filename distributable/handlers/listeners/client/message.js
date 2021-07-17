@@ -58,7 +58,7 @@ class default_1 extends discord_akairo_1.Listener {
                             case 'UNKOWN_LANGUAGE':
                                 errorInformation = {
                                     name: 'Unknown language',
-                                    description: 'Detected unknwon language,\nplease use translator to supported language'
+                                    description: 'Unknwon language,\nplease use translator to supported language'
                                 };
                             case 'INVALID_LANGUAGE':
                                 errorInformation = {
@@ -81,10 +81,11 @@ class default_1 extends discord_akairo_1.Listener {
                             // @ts-expect-error :: Will only get one that isn't list
                             setTimeout(() => value.delete(), 30000);
                         });
+                        logger_1.logger.warn(`${errorInformation['name']} @ DISCORD(${message['id']})`);
                     });
                 }
                 else {
-                    logger_1.logger.notice(`Already translated message(${message['id']}) @ Discord(${message['channel']['id']})`);
+                    logger_1.logger.notice(`Already translated message @ Discord(${message['id']})`);
                 }
             }
         });
