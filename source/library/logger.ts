@@ -43,7 +43,7 @@ function zip(sourcePath: string, outputPath: string): Promise<void> {
 }
 
 function getApacheLogMessage(log: Log): string {
-	return `[${log['time']['year']}-${log['time']['month']}-${log['time']['date']} ${log['time']['hour']}:${log['time']['minute']}:${log['time']['second']} ${log['time']['timeZone']}] [${log['level']}] "${log['message']}"`;
+	return `[${log['time']['year']}-${log['time']['month']}-${log['time']['date']} ${log['time']['hour']}:${log['time']['minute']}:${log['time']['second']} ${log['time']['timeZone']}] [${log['level']}] "${log['message'].replace(/\n/g, '; ')}"`;
 }
 
 const levelList = ['emerg', 'alert', 'crit', 'error', 'warn', 'notice', 'info', 'debug'] as const;
