@@ -29,7 +29,7 @@ function zip(sourcePath: string, outputPath: string): Promise<void> {
 		try {
 			pipeline(fs.createReadStream(sourcePath), createGzip(), fs.createWriteStream(outputPath), function (error: NodeJS.ErrnoException | null | undefined): void {
 				if(error !== null && typeof(error) !== 'undefined') {
-					throw error;/*Error('Error occurred while compressing file')*/ 
+					throw Error('Error occurred while compressing file');
 				}
 
 				resolve();
