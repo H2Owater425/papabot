@@ -1,7 +1,7 @@
 import { logger } from "@library/logger";
 import { getLanguageInformation, getTranslatedResult } from "@library/translator";
 import { LanguageInformation, TranslatedResult } from "@library/types";
-import { getObjectValueList } from "@library/utility";
+import { getObjectValueList, sendErrorMessage } from "@library/utility";
 import { Listener } from "discord-akairo";
 import { Collection, Message, MessageEmbed, MessageReaction, User } from "discord.js";
 
@@ -9,7 +9,7 @@ if([process.env.COLOR].includes(undefined)) {
 	throw Error('Unconfigured environmental variable');
 }
 
-interface errorInformation {
+interface ErrorInformation {
 	name: string;
 	description: string;
 }
@@ -35,7 +35,7 @@ export default class extends Listener {
 							color: process.env.COLOR,
 							author: {
 								name: user['username'],
-								iconURL: `https://cdn.discordapp.com/avatars/${user['id']}/${user['avatar']}.png?size=128`
+								iconURL: `https://cdn.discordapp.com/avatars/${user['id']}/${user['avatar']}.png`
 							},
 							description: value['text'],
 							footer: {
@@ -49,7 +49,7 @@ export default class extends Listener {
 						return;
 					})
 					.catch(function (error: any): void | PromiseLike<void> {
-						let errorInformation: errorInformation = {
+						let errorInformation: ErrorInformation = {
 							name: 'Unknown error',
 							description: 'Unknown error detected,\nplease notice this to developer(<@${381745799723483136}>)'
 						};
@@ -77,21 +77,7 @@ export default class extends Listener {
 								}
 						}
 						
-						message.lineReplyNoMention(new MessageEmbed({
-							color: 'ff0000',
-							author: {
-								name: errorInformation['name'],
-								iconURL: 'https://cdn.h2owr.xyz/images/papabot/error_icon.png'
-							},
-							description: errorInformation['description'],
-							footer: {
-								text: '(Time limit 30 seconds setted)'
-							}
-						}))
-						.then(function (value: Message | Message[]): void {
-							// @ts-expect-error :: Will only get one that isn't list
-							setTimeout(() => value.delete(), 30000);
-						});
+						sendErrorMessage(message, errorInformation, { timeout: 30000 });
 
 						logger.warn(`${errorInformation['name']} @ DISCORD(${message['id']})`);
 					});

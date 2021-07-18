@@ -54,6 +54,24 @@ export function resolvePromiseByOrder(promiseList: Promise<any>[]): Promise<any[
 	});
 }
 
+export function sendErrorMessage(message: Message, error: { name: string, description: string }, option: { timeout: number } = { timeout: 300000 }): void {
+	message.lineReplyNoMention(new MessageEmbed({
+		color: 'ff0000',
+		author: {
+			name: error['name'],
+			iconURL: 'https://cdn.h2owr.xyz/images/papabot/error_icon.png'
+		},
+		description: error['description'],
+		footer: {
+			text: `(Time limit ${option['timeout'] / 1000} second(s) setted)`
+		}
+	}))
+	.then(function (value: Message | Message[]): void {
+		// @ts-expect-error :: Will only get one that isn't list
+		setTimeout(() => value.delete(), option['timeout']);
+	});
+}
+
 export function sendEmbedList(message: Message, pageList: MessageEmbed[], option?: { emojiList: EmojiResolvable[], timeout: number }): void {
 	if(pageList.length > 1) {
 		if(typeof(option) === 'undefined') {
