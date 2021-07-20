@@ -267,8 +267,7 @@ export function getTranslatedResult(text: string, targetLanguageCode: typeof lan
 			})
 			.then(function (value: Response): void | PromiseLike<void> {
 				if(value['status'] === 200) {
-					value.json()
-					.then(function (value: LooseObject): void | PromiseLike<void> {
+					value.json().then(function (value: LooseObject): void | PromiseLike<void> {
 						const sourceLanguage: LanguageInformation = getLanguageInformation(value['langCode']);
 
 						if(![sourceLanguage['code'], sourceLanguage['fullName']].includes(undefined)) {
@@ -287,8 +286,7 @@ export function getTranslatedResult(text: string, targetLanguageCode: typeof lan
 								})
 								.then(function (value: Response): void | PromiseLike<void> {
 									if(value['status'] === 200) {
-										value.json()
-										.then(function (value: LooseObject): void | PromiseLike<void> {
+										value.json().then(function (value: LooseObject): void | PromiseLike<void> {
 											const targetLanguage: LanguageInformation = getLanguageInformation(targetLanguageCode);
 
 											resolve({
@@ -299,22 +297,18 @@ export function getTranslatedResult(text: string, targetLanguageCode: typeof lan
 
 											return;
 										})
-										.catch(function (error: any): void | PromiseLike<void> {
-											reject(error);
-							
-											return;
-										});
+										.catch((error: any) => reject('CONVERSION_ERROR'));
+
+										return;
 									} else {
 										reject('API_ERROR');
 							
 										return;
 									}
 								})
-								.catch(function (error: any): void | PromiseLike<void> {
-									reject(error);
-					
-									return;
-								});
+								.catch((error: any) => reject('API_ERROR'));
+
+								return;
 							} else {
 								reject('INVALID_LANGUAGE');
 					
@@ -326,11 +320,9 @@ export function getTranslatedResult(text: string, targetLanguageCode: typeof lan
 							return;
 						}
 					})
-					.catch(function (error: any): void | PromiseLike<void> {
-						reject(error);
-		
-						return;
-					});
+					.catch((error: any) => reject('CONVERSION_ERROR'));
+
+					return;
 				} else if(value['status'] === 429) {
 					naverAuthorization.addIndex();
 					
@@ -343,11 +335,9 @@ export function getTranslatedResult(text: string, targetLanguageCode: typeof lan
 					return;
 				}
 			})
-			.catch(function (error: any): void | PromiseLike<void> {
-				reject(error);
+			.catch((error: any) => reject('API_ERROR'));
 
-				return;
-			});
+			return;
 		}
 	});
 }
