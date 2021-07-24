@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getObjectValueList = exports.sendEmbedList = exports.resolvePromiseByOrder = exports.getParsedJson = exports.getTime = void 0;
+exports.getObjectValueList = exports.sendEmbedList = exports.sendErrorMessage = exports.resolvePromiseByOrder = exports.getParsedJson = exports.getTime = void 0;
+const discord_js_1 = require("discord.js");
 function getTime(date = new Date()) {
     var _a;
     function getDoubleDigit(_number) {
@@ -48,6 +49,24 @@ function resolvePromiseByOrder(promiseList) {
     });
 }
 exports.resolvePromiseByOrder = resolvePromiseByOrder;
+function sendErrorMessage(message, error, option = { timeout: 300000 }) {
+    message.lineReplyNoMention(new discord_js_1.MessageEmbed({
+        color: 'ff0000',
+        author: {
+            name: error['name'],
+            iconURL: 'https://cdn.h2owr.xyz/images/papabot/error_icon.png'
+        },
+        description: error['description'],
+        footer: {
+            text: `(Time limit ${option['timeout'] / 1000} second(s) setted)`
+        }
+    }))
+        .then(function (value) {
+        // @ts-expect-error :: Will only get one that isn't list
+        setTimeout(() => value.delete(), option['timeout']);
+    });
+}
+exports.sendErrorMessage = sendErrorMessage;
 function sendEmbedList(message, pageList, option) {
     if (pageList.length > 1) {
         if (typeof (option) === 'undefined') {

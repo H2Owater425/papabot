@@ -238,8 +238,7 @@ function getTranslatedResult(text, targetLanguageCode) {
             })
                 .then(function (value) {
                 if (value['status'] === 200) {
-                    value.json()
-                        .then(function (value) {
+                    value.json().then(function (value) {
                         var _a;
                         const sourceLanguage = getLanguageInformation(value['langCode']);
                         if (![sourceLanguage['code'], sourceLanguage['fullName']].includes(undefined)) {
@@ -255,8 +254,7 @@ function getTranslatedResult(text, targetLanguageCode) {
                                 })
                                     .then(function (value) {
                                     if (value['status'] === 200) {
-                                        value.json()
-                                            .then(function (value) {
+                                        value.json().then(function (value) {
                                             const targetLanguage = getLanguageInformation(targetLanguageCode);
                                             resolve({
                                                 sourceLanguage: sourceLanguage,
@@ -265,20 +263,16 @@ function getTranslatedResult(text, targetLanguageCode) {
                                             });
                                             return;
                                         })
-                                            .catch(function (error) {
-                                            reject(error);
-                                            return;
-                                        });
+                                            .catch((error) => reject('CONVERSION_ERROR'));
+                                        return;
                                     }
                                     else {
                                         reject('API_ERROR');
                                         return;
                                     }
                                 })
-                                    .catch(function (error) {
-                                    reject(error);
-                                    return;
-                                });
+                                    .catch((error) => reject('API_ERROR'));
+                                return;
                             }
                             else {
                                 reject('INVALID_LANGUAGE');
@@ -290,10 +284,8 @@ function getTranslatedResult(text, targetLanguageCode) {
                             return;
                         }
                     })
-                        .catch(function (error) {
-                        reject(error);
-                        return;
-                    });
+                        .catch((error) => reject('CONVERSION_ERROR'));
+                    return;
                 }
                 else if (value['status'] === 429) {
                     naverAuthorization.addIndex();
@@ -305,10 +297,8 @@ function getTranslatedResult(text, targetLanguageCode) {
                     return;
                 }
             })
-                .catch(function (error) {
-                reject(error);
-                return;
-            });
+                .catch((error) => reject('API_ERROR'));
+            return;
         }
     });
 }
