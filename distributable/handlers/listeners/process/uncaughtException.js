@@ -4,9 +4,9 @@ const logger_1 = require("@library/logger");
 const discord_akairo_1 = require("discord-akairo");
 class default_1 extends discord_akairo_1.Listener {
     constructor() {
-        super("uncaughtException", {
-            event: "uncaughtException",
-            emitter: "process"
+        super('uncaughtException', {
+            event: 'uncaughtException',
+            emitter: 'process'
         });
     }
     exec(error) {

@@ -7,7 +7,7 @@ exports.logger = exports.Logger = void 0;
 const fs_1 = __importDefault(require("fs"));
 const zlib_1 = require("zlib");
 const stream_1 = require("stream");
-const utility_1 = require("./utility");
+const utility_1 = require("@library/utility");
 if ([process.env.LOG_DIRECTORY].includes(undefined)) {
     throw Error('Unconfigured environmental variable');
 }
