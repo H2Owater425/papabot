@@ -1,5 +1,5 @@
 import { logger } from '@library/logger';
-import { languageCode, languageFullName } from './translator';
+import { languageCode, languageFullName } from '@library/translator';
 
 declare module 'discord-akairo' {
 	interface AkairoClient {

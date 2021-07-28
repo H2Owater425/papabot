@@ -1,6 +1,6 @@
-import { LanguageInformation, LooseObject, Time, TranslatedResult } from "@library/types";
-import fetch, { HeaderInit, Response } from "node-fetch";
-import { getParsedJson, getTime } from "@library/utility";
+import { LanguageInformation, LooseObject, Time, TranslatedResult } from '@library/types';
+import fetch, { HeaderInit, Response } from 'node-fetch';
+import { getParsedJson, getTime } from '@library/utility';
 
 if([process.env.NAVER_AUTHORIZATION_LIST].includes(undefined)) {
 	throw Error('Unconfigured environmental variable');

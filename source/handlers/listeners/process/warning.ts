@@ -1,5 +1,5 @@
-import { logger } from "@library/logger";
-import { Listener } from "discord-akairo";
+import { logger } from '@library/logger';
+import { Listener } from 'discord-akairo';
 
 export default class extends Listener {
 	constructor() {

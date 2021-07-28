@@ -1,9 +1,9 @@
-import { logger } from "@library/logger";
-import { getLanguageInformation, getTranslatedResult } from "@library/translator";
-import { LanguageInformation, TranslatedResult } from "@library/types";
-import { getObjectValueList, sendErrorMessage } from "@library/utility";
-import { Listener } from "discord-akairo";
-import { Collection, MessageEmbed, MessageReaction, User } from "discord.js";
+import { logger } from '@library/logger';
+import { getLanguageInformation, getTranslatedResult } from '@library/translator';
+import { LanguageInformation, TranslatedResult } from '@library/types';
+import { getObjectValueList, sendErrorMessage } from '@library/utility';
+import { Listener } from 'discord-akairo';
+import { Collection, MessageEmbed, MessageReaction, User } from 'discord.js';
 
 interface ErrorInformation {
 	name: string;

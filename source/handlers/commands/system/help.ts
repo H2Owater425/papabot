@@ -1,6 +1,6 @@
-import { sendEmbedList } from "@library/utility";
-import { Argument, Category, Command } from "discord-akairo";
-import { Message, MessageEmbed } from "discord.js";
+import { sendEmbedList } from '@library/utility';
+import { Argument, Category, Command } from 'discord-akairo';
+import { Message, MessageEmbed } from 'discord.js';
 
 if([process.env.COLOR, process.env.PREFIX].includes(undefined)) {
 	throw Error('Unconfigured environmental variable');

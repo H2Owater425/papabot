@@ -1,5 +1,5 @@
-import { LooseObject, Time } from "@library/types";
-import { Collection, EmojiResolvable, Message, MessageEmbed, MessageReaction, ReactionCollector, User } from "discord.js";
+import { LooseObject, Time } from '@library/types';
+import { Collection, EmojiResolvable, Message, MessageEmbed, MessageReaction, ReactionCollector, User } from 'discord.js';
 
 export function getTime(date: Date = new Date()): Time {
 	function getDoubleDigit(_number: number): string {

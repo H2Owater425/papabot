@@ -2,7 +2,7 @@ import fs from 'fs';
 import { createGzip } from 'zlib';
 import { pipeline } from 'stream';
 import { Time } from '@library/types';
-import { getTime } from './utility';
+import { getTime } from '@library/utility';
 
 interface LogFileStat {
 	lastModified: Date;

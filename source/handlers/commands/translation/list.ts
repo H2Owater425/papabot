@@ -1,8 +1,8 @@
-import { getLanguageInformation, languageCode, languageFullName, languageInformation } from "@library/translator";
-import { LanguageInformation } from "@library/types";
-import { sendEmbedList } from "@library/utility";
-import { Command } from "discord-akairo";
-import { Message, MessageEmbed } from "discord.js";
+import { getLanguageInformation, languageCode, languageFullName, languageInformation } from '@library/translator';
+import { LanguageInformation } from '@library/types';
+import { sendEmbedList } from '@library/utility';
+import { Command } from 'discord-akairo';
+import { Message, MessageEmbed } from 'discord.js';
 
 const elementNumber: number = 7;
 

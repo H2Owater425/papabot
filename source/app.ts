@@ -1,7 +1,7 @@
-import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } from "discord-akairo";
+import { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } from 'discord-akairo';
 import dotenv from 'dotenv';
 dotenv.config();
-import { logger } from "@library/logger";
+import { logger } from '@library/logger';
 import 'discord-reply';
 import '@library/types';
 
