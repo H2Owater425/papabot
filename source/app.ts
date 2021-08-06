@@ -42,9 +42,7 @@ try {
 		}
 	}
 
-	const client: Client = new Client();
-
-	client.login(process.env.TOKEN);
+	(new Client()).login(process.env.TOKEN);
 } catch(error: any) {
 	logger.crit(error);
 }
