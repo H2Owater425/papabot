@@ -1,166 +1,120 @@
-import { LooseObject, Time } from '@library/types';
-import { Collection, EmojiResolvable, Message, MessageEmbed, MessageReaction, ReactionCollector, User } from 'discord.js';
+import { ClientRequest, IncomingMessage } from 'http';
+import { request } from 'https';
+import { Language, RejectFunction, ResolveFunction } from '@library/type';
+import { EmbedField, EmbedOptions } from 'eris';
+import { client } from '@application';
+import { getLanguage, languageCodes } from './translator';
 
-export function getTime(date: Date = new Date()): Time {
-	function getDoubleDigit(_number: number): string {
-		return _number > 9 ? String(_number) : '0' + _number;
-	}
-	return {
-		year: String(date.getUTCFullYear()),
-		month: getDoubleDigit(date.getUTCMonth()+1),
-		date: getDoubleDigit(date.getUTCDate()),
-		hour: getDoubleDigit(date.getUTCHours()),
-		minute: getDoubleDigit(date.getUTCMinutes()),
-		second: getDoubleDigit(date.getUTCSeconds()),
-		timeZone: date.toString().match(/[+-](?:2[0-3]|[01][0-9])[0-5][0-9]/)?.[0] || '+0000'
-	}
-}
+export function fetchBuffer(url: string, options: Omit<RequestInit, 'headers'> & { headers?: Record<string, string> } = {}): Promise<Buffer> {
+	return new Promise<Buffer>(function (resolve: ResolveFunction<Buffer>, reject: RejectFunction): void {
+		const _url: URL = new URL(url);
 
-export function getParsedJson(target: object | string): LooseObject {
-	const dictionary: LooseObject[] = JSON.parse(typeof(target) === 'object' ? JSON.stringify(target) : target);
-	
-	return dictionary;
-}
+		const clientRequest: ClientRequest = request({
+			hostname: _url['hostname'],
+			path: _url['pathname'] + _url['search'],
+			method: options['method'],
+			port: 443,
+			headers: options['headers']
+		}, function (incomingMessage: IncomingMessage): void {
+			const buffers: Buffer[] = [];
+			let bufferLength: number = 0;
 
-export function resolvePromiseByOrder(promiseList: Promise<any>[]): Promise<any[]> {
-	return new Promise<any[]>(function (resolve: (value: any[] | PromiseLike<any[]>) => void, reject: (reason?: any) => void): void {
-		let valueList: any[] = [];
+			if(incomingMessage['statusCode'] === 200) {
+				incomingMessage.on('data', function (chunk: any): void {
+					buffers.push(chunk);
+					bufferLength += chunk['byteLength'];
 
-		promiseList.reduce(function (previousValue: Promise<any>, currentValue: Promise<any>, currentIndex: number, array: Promise<any>[]): Promise<any> {
-			return previousValue
-			.then(function (value: any): Promise<any> {
-				valueList.push(value);
+					return;
+				})
+				.on('error', reject)
+				.on('end', function (): void {
+					resolve(Buffer.concat(buffers, bufferLength));
 
-				return currentValue;
-			}, Promise.resolve)
-			.catch(function (error: any): void | PromiseLike<void> {
-				reject(error);
-
-				return;
-			});
-		})
-		.then(function (value: any): void | PromiseLike<void> {
-			resolve(valueList);
-
-			return;
-		})
-		.catch(function (error: any): void | PromiseLike<void> {
-			reject(error);
+					return;
+				});
+			} else {
+				reject(new Error('Invalid response status code'));
+			}
 
 			return;
 		});
+
+		if(typeof(options['body']) !== 'undefined') {
+			clientRequest.write(options['body']);
+		}
+
+		clientRequest.end();
 
 		return;
 	});
 }
 
-export function sendErrorMessage(message: Message, error: { name: string, description: string }, option: { timeout: number } = { timeout: 300000 }): void {
-	message.lineReplyNoMention(new MessageEmbed({
-		color: 'ff0000',
-		author: {
-			name: error['name'],
-			iconURL: 'https://cdn.h2owr.xyz/images/papabot/error_icon.png'
-		},
-		description: error['description'],
-		footer: {
-			text: `(Time limit ${option['timeout'] / 1000} second(s) setted)`
-		}
-	}))
-	.then(function (value: Message | Message[]): void {
-		// @ts-expect-error :: Will only get one that isn't list
-		setTimeout(() => value.delete(), option['timeout']);
-	});
+export function getStringBetween(target: string, options: {
+	starting?: string;
+	ending?: string;
+} = {}): string {
+	const startingIndex: number = typeof(options['starting']) === 'string' ? target.indexOf(options['starting']) + options['starting']['length'] : 0;
+	const endingIndex: number = typeof(options['ending']) === 'string' ? target.indexOf(options['ending']) : target['length'] - 1;
+
+	return target.slice(startingIndex !== -1 ? startingIndex : 0, endingIndex !== -1 ? endingIndex : target['length'] - 1);
 }
 
-export function sendEmbedList(message: Message, pageList: MessageEmbed[], option?: { emojiList: EmojiResolvable[], timeout: number }): void {
-	if(pageList.length > 1) {
-		if(typeof(option) === 'undefined') {
-			option = {
-				emojiList: ['◀', '▶', '❌'],
-				timeout: 300000
-			}
-		} else {
-			if(typeof(option['emojiList']) === 'undefined' || option['emojiList'].length !== 3) {
-				option['emojiList'] = ['◀', '▶', '❌'];
-			} else if(typeof(option['timeout']) === 'undefined') {
-				option['timeout'] = 300000;
-			}
-		}
+export function getHelpEmbed(index: number, pageSize: number): EmbedOptions {
+	const helpEmbed: EmbedOptions = {
+		color: Number.parseInt(process['env']['EMBED_COLOR'], 16),
+		thumbnail: { url: 'https://cdn.h2owr.xyz/images/papabot/logo.png' },
+		title: 'Papabot | 도움',
+		description: '',
+		footer: { text: (index + 1) + '/' + Math.ceil(client['commandLabels']['length'] / pageSize) },
+		fields: []
+	};
 
-		const emojiList: EmojiResolvable[] = option['emojiList'];
-		const timeout: number = option['timeout'];
-		let pageNumber: number = 0;
+	index *= pageSize;
+
+	while((helpEmbed['fields'] as EmbedField[])['length'] !== pageSize && typeof(client['commands'][client['commandLabels'][index]]) === 'object') {
+		(helpEmbed['fields'] as EmbedField[]).push({
+			name: '`' + process['env']['PREFIX'] + client['commandLabels'][index] + '`',
+			value: client['commands'][client['commandLabels'][index]]['description']
+		});
+
+		index++;
+	}
+
+	(helpEmbed['fields'] as EmbedField[]).push({
+		name: '\u200b',
+		value: '*`' + process['env']['PREFIX'] + '도움 ' + process['env']['PREFIX'] + '<명령어>`를 통해 더 많은 정보를 확인하세요*'
+	});
+
+	return helpEmbed;
+}
+
+export function getLanguageEmbed(index: number, pageSize: number): EmbedOptions {
+	const languageEmbed: EmbedOptions = {
+		color: Number.parseInt(process['env']['EMBED_COLOR'], 16),
+		thumbnail: { url: 'https://cdn.h2owr.xyz/images/papabot/logo.png' },
+		title: 'Papabot | 언어',
+		description: '',
+		footer: { text: (index + 1) + '/' + Math.ceil(languageCodes['length'] / pageSize) },
+		fields: []
+	};
+
+	index *= pageSize;
+
+	while((languageEmbed['fields'] as EmbedField[])['length'] !== pageSize && index !== languageCodes['length']) {
+		const language: Language = getLanguage(languageCodes[index]) as Language;
 		
-		message.channel.send(pageList[pageNumber].setFooter(`(Page ${pageNumber + 1}/${pageList.length},\ntime limit ${timeout / 1000 / 60} minute(s) setted)`))
-		.then(function (value: Message): void | PromiseLike<void> {
-			resolvePromiseByOrder(emojiList.map((_value: EmojiResolvable, index: number, array: EmojiResolvable[]) => value.react(_value)))
-			.then(function (_value: any[]): void | PromiseLike<void> {
-				const reactionCollector: ReactionCollector = value.createReactionCollector((...argList: any[]) => true, { time: timeout });
-
-				reactionCollector.on('collect', function (reaction: MessageReaction, user: User): void {
-					reaction.users.remove(user);
-
-					let isRequiredToEdit: boolean = false;
-
-					if(!user['bot'] && emojiList.includes(reaction['emoji']['name'])) {
-						switch(reaction['emoji']['name']) {
-							case emojiList[0]:
-								if(pageNumber > 0) {
-									pageNumber--;
-
-									isRequiredToEdit = true;
-								}
-
-								break;
-							case emojiList[1]:
-								if(pageNumber + 1 < pageList.length) {
-									pageNumber++;
-
-									isRequiredToEdit = true;
-								}
-								
-								break;
-							case emojiList[2]:
-								reactionCollector.stop();
-								
-								break;
-						}
-					}
-
-					if(isRequiredToEdit) {
-						value.edit(pageList[pageNumber].setFooter(`(Page ${pageNumber + 1}/${pageList.length},\ntime limit ${timeout / 1000} setted)`));
-					}
-				});
-
-				reactionCollector.on('end', function (collected: Collection<string, MessageReaction>, reason: string): void {
-					value.reactions.removeAll()
-					.then(function (value: Message): void | PromiseLike<void> {
-						if(message.deletable) {
-							value.delete();
-						}
-					});
-				});
-			});
+		(languageEmbed['fields'] as EmbedField[]).push({
+			name: '`' + language['name'] + '(' + language['code'] + ')`',
+			value: '\u200b'
 		});
 
-		return;
-	} else {
-		throw Error('Lack of page');
-	}
-}
-
-export function getObjectValueList(object: Object, valueList?: any[]): any[] {
-	valueList = valueList || [];
-
-	const _valueList: any[] = Object.values(object);
-
-	for(let i: number = 0; i < _valueList.length; i++) {
-		if(typeof(_valueList[i]) === 'object') {
-			getObjectValueList(_valueList[i], valueList);
-		} else {
-			valueList.push(_valueList[i]);
-		}
+		index++;
 	}
 
-	return valueList;
+	(languageEmbed['fields'] as EmbedField[]).push({
+		name: '\u200b',
+		value: '*`' + process['env']['PREFIX'] + '언어 <코드|이름|국기(이모지)>`를 통해 더 많은 정보를 확인하세요*'
+	});
+
+	return languageEmbed;
 }
